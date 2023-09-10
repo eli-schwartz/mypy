@@ -131,15 +131,12 @@ jobs:
         source $VENV/bin/activate
     - name: Install tox
       run: pip install --upgrade 'setuptools!=50' tox==4.4.4
-    - name: Compiled with mypyc
-      if: ${{ matrix.test_mypyc }}
-      run: |
-        pip install -r test-requirements.txt
-        CC=clang MYPYC_OPT_LEVEL=0 MYPY_USE_MYPYC=1 pip install -e .
-    - name: Setup tox environment
-      run: tox run -e ${{ matrix.toxenv }} --notest
     - name: Test
-      run: tox run -e ${{ matrix.toxenv }} --skip-pkg-install -- ${{ matrix.tox_extra_args }}
+      run: |
+        if [[ ${{ matrix.test_mypyc ]] = true ]]; then
+            export CC=clang MYPYC_OPT_LEVEL=0 MYPY_USE_MYPYC=1
+        fi
+        tox run -e ${{ matrix.toxenv }} -- ${{ matrix.tox_extra_args }}
 
   python_32bits:
     runs-on: ubuntu-latest

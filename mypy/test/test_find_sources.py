@@ -7,6 +7,7 @@ import unittest
 
 import pytest
 
+import mypy
 from mypy.find_sources import InvalidSourceList, SourceFinder, create_source_list
 from mypy.fscache import FileSystemCache
 from mypy.modulefinder import BuildSource
@@ -72,6 +73,10 @@ class SourceFinderSuite(unittest.TestCase):
     def tearDown(self) -> None:
         os.chdir(self.oldcwd)
         shutil.rmtree(self.tempdir)
+
+    def test_whats_the_dir(self):
+        print(mypy)
+        assert False
 
     def test_crawl_no_namespace(self) -> None:
         options = Options()
