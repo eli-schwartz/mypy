@@ -131,7 +131,7 @@ jobs:
       run: pip install --upgrade 'setuptools!=50' tox==4.4.4
     - name: Test
       run: |
-        if [[ ${{ matrix.test_mypyc }} = true ]]; then
+        if [[ "${{ matrix.test_mypyc }}" = true ]]; then
             export CC=clang MYPYC_OPT_LEVEL=0 MYPY_USE_MYPYC=1
         fi
         tox run -e ${{ matrix.toxenv }} -- ${{ matrix.tox_extra_args }}
